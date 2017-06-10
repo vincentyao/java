@@ -1,0 +1,40 @@
+package com.dheaven.mip.item;
+import java.io.IOException;
+import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
+import org.apache.commons.httpclient.Header;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.HttpMethod;
+import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.params.HttpMethodParams;
+
+public class MyHttpClient {
+	public void getClientMethod(){
+		HttpClient Hc=new HttpClient();
+//		Hc.getHostConfiguration().setProxy("proxy_host_addr", proxyPort);
+		HttpMethod getMethod=new GetMethod("http://www.jianshu.com/");
+		getMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler());
+		int statusCode;
+		try{
+			statusCode=Hc.executeMethod(getMethod);
+			if(statusCode!=HttpStatus.SC_OK){
+				System.err.println("Method failed:"+getMethod.getStatusLine());
+			}
+			
+			byte[]responseBody=getMethod.getResponseBody();
+			System.out.println(new String(responseBody));
+		}catch(HttpException e){
+			System.out.println("please check your provided http address!");
+		}catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			getMethod.releaseConnection();
+		}
+		
+		
+	}
+
+}
