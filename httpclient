@@ -1,5 +1,5 @@
-package com.dheaven.mip.item;
 import java.io.IOException;
+
 import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
@@ -7,34 +7,91 @@ import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.apache.commons.httpclient.Header;
 
-public class MyHttpClient {
-	public void getClientMethod(){
-		HttpClient Hc=new HttpClient();
-//		Hc.getHostConfiguration().setProxy("proxy_host_addr", proxyPort);
-		HttpMethod getMethod=new GetMethod("http://www.jianshu.com/");
-		getMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler());
+public class helloword {
+
+	public static void main(String[] args) {
+		// System.out.println("hello,universion!");
+
+		helloword hw = new helloword();
+		hw.postClientMethod();
+	}
+
+	// public void getClientMethod(){
+	// HttpClient Hc=new HttpClient();
+	// Hc.getHostConfiguration().setProxy("proxy_host_addr", proxyPort);
+	// HttpMethod getMethod=new GetMethod("http://www.jianshu.com/");
+	// getMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new
+	// DefaultHttpMethodRetryHandler());
+	// int statusCode;
+	// try{
+	// statusCode=Hc.executeMethod(getMethod);
+	// if(statusCode!=HttpStatus.SC_OK){
+	// System.err.println("Method failed:"+getMethod.getStatusLine());
+	// }
+	//
+	// byte[]responseBody=getMethod.getResponseBody();
+	// System.out.println(new String(responseBody));
+	// }catch(HttpException e){
+	// System.out.println("please check your provided http address!");
+	// }catch (IOException e) {
+	// e.printStackTrace();
+	// }finally{
+	// getMethod.releaseConnection();
+	// }
+	//
+	//
+	public void postClientMethod() {
+		HttpClient Hc = new HttpClient();
+
+		// Hc.getHostConfiguration().setProxy("localhost", 8888);
+
+		String url = "http://i.yiche.com/ajax/Authenservice/login.ashx";
+		PostMethod postMethod = new PostMethod(url);
+		postMethod.setRequestHeader("User-Agent",
+				" Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36");
+		postMethod.setRequestHeader("Referer",
+				"http://i.yiche.com/authenservice/login.html?returnurl=http%3A%2F%2Fshenzhen.bitauto.com%2F%3Freferrer%3Dhttp%3A%2F%2Fcn.bing.com%2Fsearch%3Fq%3D%25E6%2598%2593%25E8%25BD%25A6%25E7%25BD%2591%26qs%3DSC%26pq%3Dyic%26sc%3D8-3%26cvid%3D8C669C16483848428560436835775871%26%3DQBLH%26sp%3D1");
+		postMethod.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+		postMethod.setRequestHeader("Origin", "http://i.yiche.com");
+		postMethod.setRequestHeader("Accept", "application/json, text/javascript, */*; q=0.01");
+		NameValuePair[] data = { new NameValuePair("txt_LoginName", "yours_account"),
+				new NameValuePair("txt_Password", "yours_passwd") };
+
+		postMethod.setRequestBody(data);
 		int statusCode;
-		try{
-			statusCode=Hc.executeMethod(getMethod);
-			if(statusCode!=HttpStatus.SC_OK){
-				System.err.println("Method failed:"+getMethod.getStatusLine());
+
+		try {
+			statusCode = Hc.executeMethod(postMethod);
+			System.out.println("statusCode = " + statusCode);
+			if (statusCode == HttpStatus.SC_MOVED_PERMANENTLY || statusCode == HttpStatus.SC_MOVED_TEMPORARILY) {
+				Header locationHeader = postMethod.getResponseHeader("location");
+				String location = null;
+
+				if (locationHeader != null) {
+					location = locationHeader.getValue();
+					System.out.println("the page was redirected to:" + location);
+				} else {
+					System.out.println("location field value is null!");
+				}
+				return;
 			}
-			
-			byte[]responseBody=getMethod.getResponseBody();
+			byte[] responseBody = postMethod.getResponseBody();
 			System.out.println(new String(responseBody));
-		}catch(HttpException e){
-			System.out.println("please check your provided http address!");
-		}catch (IOException e) {
+
+		} catch (HttpException e) {
 			e.printStackTrace();
-		}finally{
-			getMethod.releaseConnection();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			postMethod.releaseConnection();
 		}
-		
-		
+
 	}
 
 }
