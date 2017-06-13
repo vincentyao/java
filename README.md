@@ -1,1 +1,11 @@
 # java
+
+
+
+走springmvc和不走springmvc，直接走httpservlet的方式，其实主体感觉都是一样的，并且springmvc本身就是基于dispatcher的这个servlet实现的一个框架。底层我推测走的都是url-pattern和sevlet-name对应关系，从而找到后台class的业务处理类，只是springmvc的这个操作交由dispatcher来做，而非springmvc的这种方式则是自己在web.xml里面去通过配置servlet-mapping和servlet-name，url-pattern，servlet-class来处理的。
+
+如你有新的更为准确的理解，期待回踩
+
+PS:不想在IDE环境里面跑run as server的，你也可以自己打成war包，然后放到tomcat的webapps目录下面，然后启动tomcat，直接在物理PC的browser里面访问（测试同学有时候测试一些后台的server的时候，如果苦于没有url和页面，也可以跟开发沟通，将需要测试的server打包成一个war包，放到tomcat下面，从而得到一个url来进行一些测试和验证，当然，中间可能也存在一些修改，比如依赖鉴权的，需要登录或者一些parameter的，那么可以尝试自己写一个比如基于httpcliet实现的脚本来处理post过去【对于出现的一些405，403的问题，就我自己遇到的情况来说，建议优先看下setrequestheader的设置】）
+
+学海无涯，小小生一枚，期待指导，轻喷～
