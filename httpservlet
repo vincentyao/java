@@ -1,0 +1,43 @@
+package com.onion.test;
+
+import javax.servlet.http.HttpServlet;
+
+import java.io.IOException;
+
+import javax.servlet.Servlet;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class HelloWorld extends HttpServlet implements javax.servlet.Servlet {
+
+	public HelloWorld() {
+		super();
+	}
+
+	
+	protected void doGet(HttpServletRequest request,HttpServletResponse response)throws ServletException,IOException{
+		response.getWriter().write("onion is coming");
+	}
+	
+	protected void doPost(HttpServletRequest request,HttpServletResponse response)throws ServletException,IOException{
+		response.getWriter().write("onion is coming");
+	}
+
+}
+
+
+web.xml配置
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <display-name>MyFirstDynamicWebProject</display-name>
+ <servlet>
+  	<servlet-name>HelloWorld</servlet-name>
+  	<servlet-class>com.onion.test.HelloWorld</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>HelloWorld</servlet-name>
+  	<url-pattern>/helloworld</url-pattern>
+  </servlet-mapping>
+</web-app>
+
